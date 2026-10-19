@@ -1,0 +1,11 @@
+MindMitra Backend Quick Start (Windows VS Code)
+1. Open the extracted mindmitra-backend folder in VS Code.
+2. Open Terminal > New Terminal.
+3. Run: py -m pip install -r backend/requirements.txt
+4. Run: py -m uvicorn backend.main:app --reload
+5. Open http://127.0.0.1:8000/docs
+6. Test POST /checkins using Try it out, then GET /trends.
+7. Upload backend/main.py, backend/requirements.txt and backend/.gitignore to your GitHub repo.
+
+NOTE: /resources is a placeholder and does NOT call TinyFish yet.
+NOTE: checkins.json is local unencrypted demo storage. Use fictional test entries only.
