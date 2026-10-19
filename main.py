@@ -61,3 +61,49 @@ def resources(city: str):
     # Never transmit journals or voice notes to external services.
     if not city.strip(): raise HTTPException(status_code=400, detail='City is required')
     return {'city':city, 'status':'not_configured', 'message':'TinyFish live resource lookup is not yet connected. Do not label results verified until source checks are implemented.', 'resources':[]}
+
+import os
+import requests
+from dotenv import load_dotenv
+from fastapi import HTTPException
+
+load_dotenv()
+
+@app.get("/support-resources")
+def get_support_resources(city: str = "Delhi"):
+    api_key = os.getenv("TINYFISH_API_KEY")
+
+    if not api_key:
+        raise HTTPException(
+            status_code=500,
+            detail="TinyFish API key is missing"
+        )
+
+    try:
+        response = requests.get(
+            "https://api.search.tinyfish.ai",
+            headers={"X-API-Key": api_key},
+            params={
+                "query": (
+                    f"Official mental health support "
+                    f"helplines and counselling resources "
+                    f"in {city} India"
+                )
+            },
+            timeout=30
+        )
+
+        response.raise_for_status()
+        data = response.json()
+
+        return {
+            "city": city,
+            "source": "TinyFish Search API",
+            "resources": data.get("results", [])[:5]
+        }
+
+    except requests.RequestException:
+        raise HTTPException(
+            status_code=502,
+            detail="Unable to retrieve support resources"
+        )
