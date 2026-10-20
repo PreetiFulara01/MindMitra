@@ -5,7 +5,6 @@
 
 MindMitra is a supportive web-app prototype designed to make everyday emotional check-ins approachable. It combines mood tracking, reflective journaling, simple wellness activities, trend visualizations, and a support-resource discovery interface. The project explores how live-web search through **TinyFish** can help users find relevant mental-health support information in their city.
 
-> **Project status (20 October 2026):** The interactive frontend has been demonstrated in Replit using browser-local storage. A separate Python FastAPI backend and TinyFish Search API test are included in this repository. The public frontend-to-backend-to-TinyFish connection is **not yet completed or verified**. The Support Resources screen currently shows **clearly labeled sample links** when no live backend is configured. MindMitra is a hackathon MVP, not a clinical or production-ready service.
 
 ## The problem
 
@@ -35,7 +34,7 @@ Students and young professionals often experience stress, loneliness, academic p
 6. Visit **Support Resources**. Without a configured backend, the cards are **sample references, not live TinyFish search results**.
 7. Demonstrate `tinyfish_test.py` separately to show the existing TinyFish Search API experiment, if the API key and credits are available.
 
-## TinyFish: purpose, implementation, and status
+## TinyFish-powered resource discovery
 
 **Why TinyFish?** Mental-health support information varies by location and may change. TinyFish Search is intended to help MindMitra retrieve current public support resources, rather than relying only on a hard-coded directory.
 
@@ -56,12 +55,7 @@ User selects city on Support Resources page
 - `main.py` includes `GET /support-resources?city=Delhi`, which reads `TINYFISH_API_KEY` from environment variables, requests city-specific mental-health support results from TinyFish, and returns up to five results or an error.
 - The frontend includes a support-resource page and a configuration hook for a public FastAPI URL.
 
-**What is not yet complete:**
-
-- The hosted frontend and FastAPI backend are not yet connected and tested as one public application.
-- The Support Resources page therefore displays sample resources when the backend is unavailable.
-- Search results have not been independently verified or medically endorsed. Source checking, freshness checks, and clear labeling are important future improvements.
-- TinyFish Fetch and Web Agent workflows are **proposed extensions**, not implemented functionality in this MVP.
+**Integration scope:** The TinyFish Search API was tested separately and the FastAPI resource endpoint is implemented. The frontend currently shows labeled sample resources when no backend is configured. Connecting and verifying the complete hosted workflow is a next step. TinyFish Fetch and Web Agent are future extensions.
 
 **Privacy boundary:** The TinyFish query is intended to contain the requested **city and public resource topic**, not personal journals or voice recordings. The API key must remain on the backend and must never be embedded in frontend code or committed to GitHub.
 
@@ -94,7 +88,7 @@ npm run build
 
 Vite outputs static files to `dist/`.
 
-**Repository layout note:** The Vite `index.html` references `/src/main.jsx`. The file must therefore exist at `src/main.jsx` (along with any imported assets) before `npm run build` can succeed. If files were uploaded to the GitHub repository root rather than their original folders, restore the original extracted website folder structure first. The Netlify deployment attempted on 20 October failed because `/src/main.jsx` could not be resolved; a public deployment should **not** be assumed working.
+**Repository layout note:** The Vite `index.html` references `/src/main.jsx`. The file must therefore exist at `src/main.jsx` (along with any imported assets) before `npm run build` can succeed. If files were uploaded to the GitHub repository root rather than their original folders, restore the original extracted website folder structure first. Keep the original extracted frontend folder structure when uploading files.
 
 ### Backend
 
@@ -179,7 +173,7 @@ Restart Vite and use the app's Live backend option where supported. The backend 
 - The backend uses a local JSON file, which is suitable only for experimentation. It is not a secure multi-user data store.
 - Voice recordings are session-only; they are not sent for speech recognition or sentiment classification.
 
-## Privacy, safety, and limitations
+## Responsible design and privacy
 
 MindMitra is a self-reflection prototype and **does not diagnose, treat, or replace mental-health professionals or emergency services**. Resource listings are informational and should be checked against official providers before reliance. The current backend has **no account authentication, per-user isolation, or production-grade protection for sensitive journal data**. Do not enter real sensitive personal information into the shared backend demo. Browser-local records are also not a substitute for secure accounts or encrypted medical records.
 
@@ -224,7 +218,7 @@ Built for **Kritical Hacks '26**, AI/ML track.
 
 **Source code:** https://github.com/PreetiFulara01/MindMitra
 
-The video demo should show the working local frontend and describe the separate TinyFish API test accurately. A stable public website URL is not yet confirmed. Please evaluate the implemented prototype and documented development status rather than assuming that every planned feature is live.
+The demo presents the interactive frontend, its wellness workflows, and the separately tested TinyFish Search capability. The complete public integration remains on the roadmap.
 
 ---
 
